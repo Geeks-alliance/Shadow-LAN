@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh_cn">
+
+<head>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" \>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" \>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style type="text/css">
+        .from-signin {
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+        input {
+            margin-bottom: 3px;
+            width: 210px;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        toastr.options.positionClass = 'toast-bottom-right';
+    </script>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">影岚Console</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">登录</a></li>
+                    <li><a href="/info.html">关于影岚</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <center>
+            <form id="CK" class="from-signin" role="form" action="functions/Login-check.php" method="POST">
+                <h2 class="from-sigin-heading center">影岚控制台</h2>
+                <input name="User" type="text" placeholder="用户名" value="Administartor" required autofocus />
+                <input name="Password" type="password" placeholder="密码" required />
+                <input class="btn btn-md btn-primary btn-block" type="button" onclick="tijiaoleo()" style="width: 210px;"
+                    value="登录" />
+            </form>
+            <div id="CKALERT"></div>
+        </center>
+    </div>
+    <script>
+        function tijiaoleo() {
+            var form = new FormData(document.getElementById("CK"));
+            if (document.forms["CK"].User.value === "") {
+                toastr.info("捕捉到错误,用户名不能为空.");
+                return 0;
+            } else if (document.forms["CK"].Password.value === "") {
+                toastr.info("捕捉到错误,密码不能为空.");
+                return 0;
+            }
+            $.ajax({
+                url: "/functions/Login-check.php",
+                type: "post",
+                data: form,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data === '1') {
+                        toastr.success("登录成功,您将在3s后被重定向.");
+                        setTimeout("window.location.href = '/Console'", 3000);
+                    } else if (data === '2') {
+                        toastr.error("登录失败,用户名或密码错误.");
+                    } else {
+                        toastr.warning("错误: 后端返回了出乎意料的数据");
+                    }
+                },
+                error: function (e) {
+                    toastr.error("登陆失败,表单提交失败.");
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 <?php
-include '../etc/config.php';
+include '../api/config.php';
 include 'practical.php';
 
 if (hash('sha1', $_POST['User']) === $conf['User'] and hash('sha1', $_POST['Password']) === $conf['Password']) {

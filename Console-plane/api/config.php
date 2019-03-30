@@ -1,7 +1,7 @@
 <?php
 $conf = array(
-    'User' => '', //Decode from Sha1
-    'Password' => '', //Decode from Sha1
+    'User' => 'b83e3fa184b5d84b968d84cba77e8a6eb8691234', //Decode from Sha1
+    'Password' => '3e2eb50fd69630f1a663d148188145fcd0fce85c', //Decode from Sha1
 );
 
 function Session_check() {
